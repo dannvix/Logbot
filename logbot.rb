@@ -1,0 +1,30 @@
+require "json"
+require "cinch"
+require "redis"
+
+channels = %w(#test56)
+redis = Redis.new(:thread_safe => true)
+
+channels.each do |chan|
+  redis.sadd("irclog:channels", "#{chan}")
+end
+
+bot = Cinch::Bot.new do
+  configure do |conf|
+    conf.server = "irc.freenode.net"
+    conf.nick = "logbot_"
+    conf.channels = channels
+  end
+
+  on :message do |msg|
+    if not msg.channel.nil?
+      key = "irclog:channel:#{msg.channel.name}"
+      redis.rpush(key, {
+        :time => "#{msg.time.strftime("%s.%L")}",
+        :nick => "#{msg.user.nick}",
+        :msg  => "#{msg.message}"
+      }.to_json)
+    end
+  end
+end
+bot.start

@@ -1,0 +1,13 @@
+source 'http://rubygems.org'
+
+gem 'rake'
+gem 'foreman'
+gem 'sinatra'
+gem 'async_sinatra'
+gem 'eventmachine'
+gem 'shotgun'
+gem 'compass'
+gem 'haml'
+gem 'sass'
+gem 'redis'
+gem 'cinch'

@@ -1,0 +1,89 @@
+@import "compass"
+@import "compass/reset"
+@import "solarized"
+
+html *
+  // @include box-shadow(0 0 0 1px darken(white, 75%))
+  color-profile: sRGB
+  rendering-intent: auto
+
+body
+  background: $base02
+  color: $base00
+  font-family: "Helvetica", sans-serif
+  a
+    color: $blue
+    text-decoration: none
+    &:hover
+      background: $blue
+      color: $base03
+
+
+.wrapper
+  width: 960px
+  margin: 0 auto
+
+
+.header
+  padding: 30px 0
+  text-align: center
+  h1
+    @include inline-block
+    font-size: 32pt
+    font-family: "Ropa Sans", sans-serif
+    color: $base02
+    font-weight: bold
+    background: $green
+    padding: 5px 20px
+    text-transform: uppercase
+
+
+.footer
+  padding: 40px 0 30px 0
+  font-family: "Ropa Sans", sans-serif
+  text-transform: uppercase
+  text-align: center
+
+
+.body
+  .channel, .date
+    @include inline-block
+    @include border-radius(5px)
+    font-size: 14pt
+    padding: 5px 10px
+    font-family: "Droid Sans Mono", monospace
+    color: $cyan
+    &:hover
+      cursor: pointer
+      background: $base03
+  .channel
+    font-weight: bold
+  .date
+    color: $violet
+    letter-spacing: -2px
+  .logs
+    list-style-type: none
+    font-family: "Droid Sans Mono", monospace
+    margin: 0 10px
+    li
+      margin-top: 12px
+      line-height: 1.33
+      .time
+        @include inline-block
+        width: 70px
+        vertical-align: text-top
+        letter-spacing: -2px
+      .nick
+        @include inline-block
+        margin-left: 5px
+        width: 110px
+        text-align: right
+        vertical-align: text-top
+        color: $yellow
+        letter-spacing: -1px
+      .msg
+        @include inline-block
+        margin-left: 10px
+        width: 745px
+        vertical-align: text-top
+        color: $base1
