@@ -23,8 +23,14 @@ module IRC_Log
     end
 
     get "/channel/:channel/:date" do |channel, date|
-      @date = (date == "today") ? Time.now.strftime("%F") : date
-      @date = (date == "yesterday") ? (Time.now - 86400).strftime("%F") : date
+      case date
+        when "today"
+          @date = Time.now.strftime("%F")
+        when "yesterday"
+          @date = (Time.now - 86400).strftime("%F")
+        else
+          @date = date
+      end
 
       # @channels = @@redis.smembers("irclog:channels")
       @channel = channel
