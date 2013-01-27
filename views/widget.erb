@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Logbot | #<%= @channel %></title>
-    <link rel="stylesheet" type="text/css" href="/assets/screen.css">
+    <link rel="stylesheet" type="text/css" href="/assets/widget.css">
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ropa+Sans">
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono">
     <base target="_blank" />
@@ -11,26 +11,9 @@
   <body>
     <div class="wrapper">
       <div class="header">
-        <h1>Logbot</h1>
+        <h1>Logbot <span class="channel">#<%= @channel %></span></h1>
       </div>
       <div class="body">
-        <div class="channel">#<%= @channel %></div>
-        
-        <% given_date = Time.parse(@date) %>
-        <select id="date-picker" class="date">
-          <% if (Time.now - given_date > 86400 * 5) %>
-            <option value="<%= @date %>"><%= @date %></option>
-          <% end %>
-          <optgroup label="Today">
-            <option value="today" <%= "selected" if @date == Date.today.to_s %>><%= Date.today.to_s %></option>
-          </optgroup>
-          <optgroup label="Earlier logs">
-            <% (1.upto 4).map{|d| (Date.today - d).to_s }.each do |date| %>
-              <option value="<%= date %>" <%= "selected" if @date == date %>><%= date %></option>
-            <% end %>
-          </optgroup>
-        </select>
-        
         <div>
           <ul class="logs">
             <% @msgs.each do |msg| %>
@@ -54,7 +37,7 @@
     </script>
     <script src="/assets/applications.js"></script>
     <script>
-      pollNewMsg();
+      pollNewMsg(true);
     </script>
   </body>
 </html>

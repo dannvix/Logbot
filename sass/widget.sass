@@ -1,0 +1,87 @@
+@import "compass"
+@import "compass/reset"
+@import "solarized"
+
+html *
+  // @include box-shadow(0 0 0 1px darken(white, 75%))
+  color-profile: sRGB
+  rendering-intent: auto
+
+body
+  background: $base02
+  color: $base00
+  font-family: "Helvetica", sans-serif
+  a
+    color: $blue
+    text-decoration: none
+    &:hover
+      background: $blue
+      color: $base03
+
+.header
+  text-align: center
+  h1
+    font-size: 18pt
+    font-family: "Ropa Sans", sans-serif
+    color: $base02
+    font-weight: bold
+    background: $green
+    padding: 10px 0
+    text-transform: uppercase
+    .channel
+      font: bold 16pt/1 "Droid Sans Mono", monospace
+
+
+.footer
+  padding: 10px 0
+  color: $base02
+  background: $green
+  font-family: "Ropa Sans", sans-serif
+  text-transform: uppercase
+  text-align: center
+  a
+    background: $blue
+    color: $base03
+    &:hover
+      background: transparent
+
+
+.body
+  .logs
+    list-style-type: none
+    font-family: "Droid Sans Mono", monospace
+    margin: 15px
+    li
+      margin-top: 12px
+      line-height: 1.33
+      .time, .nick
+        float: left
+      .time, .nick, .msg
+        display: block
+      .time
+        width: 70px
+        vertical-align: text-top
+        font-size: 10pt
+      .nick
+        color: $yellow
+        text-align: right
+        font-size: 10pt
+      .msg
+        color: $base1
+        margin-left: 0
+        clear: left
+
+.wordwrap
+  -ms-word-break: break-all
+  word-break: break-all
+  word-break: break-word
+  -webkit-hyphens: auto
+  -moz-hyphens: auto
+  hyphens: auto
+
+.body .logs li
+  padding: 10px
+.body .logs li:nth-child(odd)
+  background: rgba(0,0,0,.33)
+.body .logs li:nth-child(even)
+  background: rgba(0,0,0,.15)
