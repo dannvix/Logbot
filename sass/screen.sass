@@ -20,7 +20,6 @@ body
 
 
 .wrapper
-  width: 960px
   margin: 0 auto
 
 
@@ -70,13 +69,13 @@ body
       line-height: 1.33
       .time
         @include inline-block
-        width: 70px
+        width: 7%
         vertical-align: text-top
         letter-spacing: -2px
       .nick
         @include inline-block
         margin-left: 5px
-        width: 110px
+        width: 11%
         text-align: right
         vertical-align: text-top
         color: $yellow
@@ -84,6 +83,18 @@ body
       .msg
         @include inline-block
         margin-left: 10px
-        width: 745px
+        width: 77%
         vertical-align: text-top
         color: $base1
+
+
+// Media Queries
+// Smartphones (landscape)
+@media only screen and (min-width : 321px)
+  .wrapper
+    width: 320px
+
+// Desktops and laptops
+@media only screen and (min-width : 1224px)
+  .wrapper
+    width: 960px
