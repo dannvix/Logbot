@@ -27,7 +27,7 @@ var pollNewMsg = function() {
         var msg = msgs[i];
         var date = new Date(parseFloat(msg["time"]) * 1000);
         var linkedMsg = msg["msg"].replace(/(http[s]*:\/\/[^\s]+)/, '<a href="$1">$1</a>');
-        $(".logs").append($("<li>")
+        $(".logs").append($("<li>").addClass("new-arrival")
           .append($("<span class=\"time\">").text(strftime(date)))
           .append($("<span class=\"nick\">").text(msg["nick"]))
           .append($("<span class=\"msg\">").html(linkedMsg))
