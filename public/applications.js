@@ -12,7 +12,8 @@ var strftime = function(date) {
 
 
 var lastTimestamp = undefined;
-var pollNewMsg = function() {
+var pollNewMsg = function(isWidget) {
+  var isWidget = (isWidget == null) ? false : isWidget;
   var time = lastTimestamp || (new Date()).getTime() / 1000.0;
   $.ajax({
     url: "/comet/poll/" + channel + "/" + time + "/updates.json",
@@ -27,21 +28,31 @@ var pollNewMsg = function() {
         var msg = msgs[i];
         var date = new Date(parseFloat(msg["time"]) * 1000);
         var linkedMsg = msg["msg"].replace(/(http[s]*:\/\/[^\s]+)/, '<a href="$1">$1</a>');
-        $(".logs").append($("<li>").addClass("new-arrival")
+        var msgElement = $("<li>").addClass("new-arrival")
           .append($("<span class=\"time\">").text(strftime(date)))
           .append($("<span class=\"nick\">").text(msg["nick"]))
-          .append($("<span class=\"msg\">").html(linkedMsg))
-        );
+          .append($("<span class=\"msg\">").html(linkedMsg));
+        if (isWidget) {
+          $(".logs").prepend(msgElement);
+        }
+        else {
+          $(".logs").append(msgElement);
+        }
       }
 
-      $(document).scrollTop($(document).height());
+      if (!isWidget) {
+        $("document").scrollTop($(document).height());
+      }
+      else {
+        $("document").scrollTop(0);
+      }
 
       lastTimestamp = msgs[msgs.length - 1]["time"];
-      pollNewMsg();
+      pollNewMsg(isWidget);
     },
 
     error: function() {
-      pollNewMsg();
+      pollNewMsg(isWidget);
     }
   });
 }
@@ -52,6 +63,4 @@ var enableDatePicker = function() {
     location.href = location.href.replace(/[^\/]+$/, targetDate);
   })
 }
-
-pollNewMsg();
 enableDatePicker();
