@@ -37,7 +37,7 @@
               <li>
                 <span class="time"><%= Time.at(msg["time"].to_f).strftime("%T") %></span>
                 <span class="nick"><%= msg["nick"] %></span>
-                <span class="msg"><%= linked_msg %></span>
+                <span class="msg wordwrap"><%= linked_msg %></span>
               </li>
             <% end %>
           </ul>
