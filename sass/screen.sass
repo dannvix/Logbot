@@ -110,12 +110,13 @@ body
 @media only screen and (max-width : 568px)
   .body .logs li
     padding: 10px
-  .body .logs li:nth-child(odd)
-    background: rgba(0,0,0,.33)
-  .body .logs li:nth-child(even)
-    background: rgba(0,0,0,.15)
-  .body .logs li .nick
-    width: auto
-  .body .logs li .msg
-    margin-left: 0
-    clear: left
+
+    &:nth-child(odd)
+      background: rgba(0,0,0,.33)
+    &:nth-child(even)
+      background: rgba(0,0,0,.15)
+    .nick
+      width: auto
+    .msg
+      margin-left: 0
+      clear: left
