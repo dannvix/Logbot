@@ -68,13 +68,13 @@ body
     li
       margin-top: 12px
       line-height: 1.33
+      .time, .nick 
+        float: left
       .time
-        @include inline-block
         width: 70px
         vertical-align: text-top
         letter-spacing: -2px
       .nick
-        @include inline-block
         margin-left: 5px
         width: 110px
         text-align: right
@@ -82,8 +82,6 @@ body
         color: $yellow
         letter-spacing: -1px
       .msg
-        @include inline-block
         margin-left: 10px
-        width: 745px
         vertical-align: text-top
         color: $base1
