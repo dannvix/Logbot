@@ -3,6 +3,11 @@ Logbot
 Logbot is a simple IRC logger with realtime web-based viewer.
 
 
+Screenshot
+----------
+![https://raw.github.com/dannvix/Logbot/master/screenshot.png](Logbot screenshot)
+
+
 How to Deploy
 -------------
 1. Ruby (1.9.3+) and Redis server must be installed
