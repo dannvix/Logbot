@@ -46,6 +46,14 @@ module IRC_Log
 
       erb :channel
     end
+
+    get "/widget/:channel" do |channel|
+      @channel = channel
+      @msgs = @@redis.lrange("irclog:channel:##{channel}", -25, -1)
+      @msgs = @msgs.map {|msg| JSON.parse(msg) }.reverse
+
+      erb :widget
+    end
   end
 end
 
