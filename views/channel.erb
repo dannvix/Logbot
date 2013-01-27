@@ -16,7 +16,7 @@
         <div class="channel">#<%= @channel %></div>
         
         <% given_date = Time.parse(@date) %>
-        <select class="date">
+        <select id="date-picker" class="date">
           <% if (Time.now - given_date > 86400 * 5) %>
             <option value="<%= @date %>"><%= @date %></option>
           <% end %>

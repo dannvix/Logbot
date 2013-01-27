@@ -46,4 +46,12 @@ var pollNewMsg = function() {
   });
 }
 
+var enableDatePicker = function() {
+  $('#date-picker').on('change', function(event) {
+    var targetDate = this.value;
+    location.href = location.href.replace(/[^\/]+$/, targetDate);
+  })
+}
+
 pollNewMsg();
+enableDatePicker();
