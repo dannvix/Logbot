@@ -1,3 +1,4 @@
 .swp
 public/*.css
 .sass-cache
+.DS_Store
