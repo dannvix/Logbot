@@ -41,10 +41,10 @@ var pollNewMsg = function(isWidget) {
       }
 
       if (!isWidget) {
-        $("document").scrollTop($(document).height());
+        $(document).scrollTop($(document).height());
       }
       else {
-        $("document").scrollTop(0);
+        $(document).scrollTop(0);
       }
 
       lastTimestamp = msgs[msgs.length - 1]["time"];
