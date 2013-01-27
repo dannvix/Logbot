@@ -15,7 +15,16 @@
       <div class="body">
         <div class="channel">#<%= @channel %></div>
         <% if @date %>
-          <div class="date"><%= @date %>~</div>
+          <select class="date">
+            <optgroup label="Today">
+              <option value="today"><%= Date.today.to_s %>~</option>
+            </optgroup>
+            <optgroup label="Earlier logs">
+              <% (1.upto 4).map{|d| (Date.today - d).to_s }.each do |date| %>
+                <option value="<%= date %>"><%= date %>~</option>
+              <% end %>
+            </optgroup>
+          </select>
         <% end %>
         <div>
           <ul class="logs">

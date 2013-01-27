@@ -59,8 +59,11 @@ body
   .channel
     font-weight: bold
   .date
+    background: transparent
+    border: none
     color: $violet
     letter-spacing: -2px
+    @include appearance(none)
   .logs
     list-style-type: none
     font-family: "Droid Sans Mono", monospace
