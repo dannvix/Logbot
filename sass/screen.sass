@@ -2,6 +2,21 @@
 @import "compass/reset"
 @import "solarized"
 
+$row-color-odd: rgba(0,0,0,.33)
+$row-color-even: rgba(0,0,0,.15)
+
+@-webkit-keyframes blink
+  from
+    background-color: $yellow
+  to
+    background-color: transparent
+
+@keyframes blink
+  from
+    background-color: $yellow
+  to
+    background-color: transparent
+
 html *
   // @include box-shadow(0 0 0 1px darken(white, 75%))
   color-profile: sRGB
@@ -79,6 +94,11 @@ body
     li
       margin-top: 12px
       line-height: 1.33
+
+      &.new-arrival
+        -webkit-animation: blink 500ms ease-out
+        animation: blink 500ms ease-out
+
       .time, .nick
         float: left
       .time, .nick, .msg
@@ -112,9 +132,9 @@ body
     padding: 10px
 
     &:nth-child(odd)
-      background: rgba(0,0,0,.33)
+      background: $row-color-odd
     &:nth-child(even)
-      background: rgba(0,0,0,.15)
+      background: $row-color-even
     .nick
       width: auto
     .msg
