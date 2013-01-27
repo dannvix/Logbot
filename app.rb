@@ -43,7 +43,7 @@ module IRC_Log
       @msgs = @msgs.map {|msg| JSON.parse(msg) }
       @msgs = @msgs.select {|msg| d = Time.at(msg["time"].to_f) - Time.parse(@date); d >= 0 && d <= 86400 }
 
-      haml :channel
+      erb :channel
     end
   end
 end
