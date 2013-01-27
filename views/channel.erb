@@ -53,8 +53,8 @@
       var channel = "<%= @channel %>";
     </script>
     <script src="/assets/applications.js"></script>
-    <script>
-      pollNewMsg();
-    </script>
+    <% if @date == Date.today.to_s %>
+      <script>pollNewMsg();</script>
+    <% end %>
   </body>
 </html>
