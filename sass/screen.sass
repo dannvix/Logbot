@@ -20,6 +20,7 @@ body
 
 
 .wrapper
+  width: 90%
   margin: 0 auto
 
 
@@ -80,21 +81,21 @@ body
       line-height: 1.33
       .time, .nick
         float: left
+      .time, .nick, .msg
+        display: block
       .time
-        @include inline-block
         width: 70px
         vertical-align: text-top
         letter-spacing: -2px
       .nick
-        margin-left: 5px
         width: 110px
-        text-align: right
-        vertical-align: text-top
         color: $yellow
+        text-align: right
         letter-spacing: -1px
+        margin-left: 5px
       .msg
-        vertical-align: text-top
         color: $base1
+        margin-left: 200px
 
 .wordwrap
   -ms-word-break: break-all
@@ -106,21 +107,15 @@ body
   hyphens: auto
 
 // Media Queries
-// Smartphones (landscape)
-@media only screen and (min-width : 321px)
-  .wrapper
-    width: 320px
-
-  .msg
-    display: block
-    clear: both
-    width: 100%
-
-// Desktops and laptops
-@media only screen and (min-width : 768px)
-  .wrapper
-    width: 960px
-
-  .msg
-    margin-left: 190px
-    width: 77%
+@media only screen and (max-width : 568px)
+  .body .logs li
+    padding: 10px
+  .body .logs li:nth-child(odd)
+    background: rgba(0,0,0,.33)
+  .body .logs li:nth-child(even)
+    background: rgba(0,0,0,.15)
+  .body .logs li .nick
+    width: auto
+  .body .logs li .msg
+    margin-left: 0
+    clear: left
