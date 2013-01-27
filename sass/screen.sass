@@ -67,23 +67,22 @@ body
     li
       margin-top: 12px
       line-height: 1.33
+      .time, .nick
+        float: left
       .time
         @include inline-block
-        width: 7%
+        width: 70px
         vertical-align: text-top
         letter-spacing: -2px
       .nick
-        @include inline-block
         margin-left: 5px
-        width: 11%
+        width: 110px
         text-align: right
         vertical-align: text-top
         color: $yellow
         letter-spacing: -1px
       .msg
-        @include inline-block
         margin-left: 10px
-        width: 77%
         vertical-align: text-top
         color: $base1
 
@@ -102,7 +101,13 @@ body
   .wrapper
     width: 320px
 
+  .msg
+    width: 43%
+
 // Desktops and laptops
 @media only screen and (min-width : 768px)
   .wrapper
     width: 960px
+
+  .msg
+    width: 77%
