@@ -14,9 +14,22 @@
       </div>
       <div class="body">
         <div class="channel">#<%= @channel %></div>
-        <% if @date %>
-          <div class="date"><%= @date %>~</div>
-        <% end %>
+        
+        <% given_date = Time.parse(@date) %>
+        <select id="date-picker" class="date">
+          <% if (Time.now - given_date > 86400 * 5) %>
+            <option value="<%= @date %>"><%= @date %></option>
+          <% end %>
+          <optgroup label="Today">
+            <option value="today" <%= "selected" if @date == Date.today.to_s %>><%= Date.today.to_s %></option>
+          </optgroup>
+          <optgroup label="Earlier logs">
+            <% (1.upto 4).map{|d| (Date.today - d).to_s }.each do |date| %>
+              <option value="<%= date %>" <%= "selected" if @date == date %>><%= date %></option>
+            <% end %>
+          </optgroup>
+        </select>
+        
         <div>
           <ul class="logs">
             <% @msgs.each do |msg| %>
