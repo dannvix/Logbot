@@ -34,7 +34,7 @@ var pollNewMsg = function() {
         );
       }
 
-      $("body").scrollTop($(document).height());
+      $(document).scrollTop($(document).height());
 
       lastTimestamp = msgs[msgs.length - 1]["time"];
       pollNewMsg();
