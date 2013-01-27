@@ -11,6 +11,12 @@ $row-color-even: rgba(0,0,0,.15)
   to
     background-color: transparent
 
+@keyframes blink
+  from
+    background-color: $yellow
+  to
+    background-color: transparent
+
 html *
   // @include box-shadow(0 0 0 1px darken(white, 75%))
   color-profile: sRGB
@@ -91,6 +97,7 @@ body
 
       &.new-arrival
         -webkit-animation: blink 500ms ease-out
+        animation: blink 500ms ease-out
 
       .time, .nick
         float: left
