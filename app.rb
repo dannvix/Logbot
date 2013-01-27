@@ -14,6 +14,10 @@ require "eventmachine"
 
 module IRC_Log
   class App < Sinatra::Base
+    configure do
+      set :protection, :except => :frame_options
+    end
+
     get "/" do
       redirect "/channel/g0v.tw/today"
     end
