@@ -48,25 +48,29 @@ body
   .channel, .date
     color: $cyan
     font: 14pt/20px "Droid Sans Mono", monospace
-    padding: 5px 10px
     @include inline-block
     @include border-radius(5px)
+    cursor: pointer
 
     &:hover
-      cursor: pointer
       background: $base03
   .channel
     font-weight: bold
+    padding: 5px 10px
   .date
-    width: 6em
+    width: 7.2em
+    height: 30px
     background: transparent
     color: $violet
     letter-spacing: -2px
     border: none
+    padding: 0 10px
+    outline: none
+
     @include appearance(none)
 
     &::after
-      content: '\x25BE'
+      content: '\25BE'
   .logs
     list-style-type: none
     font-family: "Droid Sans Mono", monospace
