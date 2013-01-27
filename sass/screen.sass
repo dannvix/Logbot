@@ -61,7 +61,7 @@ body
 
 
 .body
-  .channel, .date
+  .channel, .date, .scroll_switch
     color: $cyan
     font: 14pt/20px "Droid Sans Mono", monospace
     @include inline-block
@@ -83,11 +83,19 @@ body
     border: none
     padding: 0 10px
     outline: none
-
     @include appearance(none)
-
     &::after
       content: '\25BE'
+
+  .scroll_switch
+    @include float-right
+    clear: both
+    padding: 5px 10px
+    color: darken($green, 5%)
+  .scroll_switch_off
+    color: darken($green, 15%)
+    text-decoration: line-through
+    
   .logs
     list-style-type: none
     font-family: "Droid Sans Mono", monospace

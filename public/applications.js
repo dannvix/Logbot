@@ -41,7 +41,9 @@ var pollNewMsg = function(isWidget) {
       }
 
       if (!isWidget) {
-        $(document).scrollTop($(document).height());
+        if (window.can_scroll) {
+          $(document).scrollTop($(document).height());
+        }
       }
       else {
         $(document).scrollTop(0);
@@ -64,3 +66,8 @@ var enableDatePicker = function() {
   })
 }
 enableDatePicker();
+
+$(".scroll_switch").click(function() {
+  window.can_scroll = $(".scroll_switch").hasClass("scroll_switch_off");
+  $(".scroll_switch").toggleClass("scroll_switch_off");
+});
