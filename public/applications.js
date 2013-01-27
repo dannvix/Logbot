@@ -31,7 +31,7 @@ var pollNewMsg = function(isWidget) {
         var msgElement = $("<li>").addClass("new-arrival")
           .append($("<span class=\"time\">").text(strftime(date)))
           .append($("<span class=\"nick\">").text(msg["nick"]))
-          .append($("<span class=\"msg\">").html(linkedMsg));
+          .append($("<span class=\"msg wordwrap\">").html(linkedMsg));
         if (isWidget) {
           $(".logs").prepend(msgElement);
         }
