@@ -20,7 +20,6 @@ body
 
 
 .wrapper
-  width: 960px
   margin: 0 auto
 
 
@@ -68,9 +67,10 @@ body
     li
       margin-top: 12px
       line-height: 1.33
-      .time, .nick 
+      .time, .nick
         float: left
       .time
+        @include inline-block
         width: 70px
         vertical-align: text-top
         letter-spacing: -2px
@@ -85,3 +85,29 @@ body
         margin-left: 10px
         vertical-align: text-top
         color: $base1
+
+.wordwrap
+  -ms-word-break: break-all
+  word-break: break-all
+  //Non standard for webkit
+  word-break: break-word
+  -webkit-hyphens: auto
+  -moz-hyphens: auto
+  hyphens: auto
+
+// Media Queries
+// Smartphones (landscape)
+@media only screen and (min-width : 321px)
+  .wrapper
+    width: 320px
+
+  .msg
+    width: 43%
+
+// Desktops and laptops
+@media only screen and (min-width : 768px)
+  .wrapper
+    width: 960px
+
+  .msg
+    width: 77%
