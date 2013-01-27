@@ -69,14 +69,15 @@ body
     cursor: pointer
 
     &:hover
-      background: $base03
+      background-color: $base03
   .channel
     font-weight: bold
     padding: 5px 10px
   .date
     width: 7.2em
     height: 30px
-    background: transparent
+    background: transparent url('images/img_dropdown_violet.svg') no-repeat 6em 60%
+    @include background-size(10%)
     color: $violet
     letter-spacing: -2px
     border: none
