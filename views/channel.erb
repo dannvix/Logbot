@@ -18,7 +18,7 @@
           <div class="date"><%= @date %>~</div>
         <% end %>
         <div>
-          <ul class="log">
+          <ul class="logs">
             <% @msgs.each do |msg| %>
               <% linked_msg = msg["msg"].gsub(/http[s]*:\/\/[^\s]+/, '<a href="\0">\0</a>') %>
               <li>
@@ -26,6 +26,7 @@
                 <span class="nick"><%= msg["nick"] %></span>
                 <span class="msg"><%= linked_msg %></span>
               </li>
+            <% end %>
           </ul>
         </div>
       </div>
