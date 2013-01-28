@@ -40,13 +40,18 @@ var pollNewMsg = function(isWidget) {
         }
       }
 
-      if (!isWidget) {
-        if (window.can_scroll) {
-          $(document).scrollTop($(document).height());
+      // only scroll the page when there's new messages
+      if (msgs.length > 0) {
+        if (isWidget) {
+          // widget layout
+          $(document).scrollTop(0);
         }
-      }
-      else {
-        $(document).scrollTop(0);
+        else {
+          // desktop or mobile layout, there's a switch to turn off auto-scrolling
+          if (window.can_scroll) {
+            $(document).scrollTop($(document).height());
+          }
+        }
       }
 
       lastTimestamp = msgs[msgs.length - 1]["time"];
