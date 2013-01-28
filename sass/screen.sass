@@ -135,11 +135,35 @@ body
   -moz-hyphens: auto
   hyphens: auto
 
-// Media Queries
+
+// quick navigation
+.quick-nav
+  position: fixed
+  top: 45%
+  right: 3%
+  @include inline-block
+  text-align: center
+
+.nav_page-up,
+.nav_page-down
+  background-color: $base03
+  color: $base1
+  font-size: 14pt
+  padding: 5px
+  @include border-radius(5px)
+  &:hover
+    cursor: pointer
+    background-color: $base01
+    color: $base03
+
+.nav_page-down
+  margin-top: 15px
+
+
+// mobile layout
 @media only screen and (max-width : 568px)
   .body .logs li
     padding: 10px
-
     &:nth-child(odd)
       background: $row-color-odd
     &:nth-child(even)
@@ -149,3 +173,8 @@ body
     .msg
       margin-left: 0
       clear: left
+
+  .nav_page-up,
+  .nav_page-down
+    padding: 1px
+

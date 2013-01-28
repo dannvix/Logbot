@@ -71,3 +71,9 @@ $(".scroll_switch").click(function() {
   window.can_scroll = $(".scroll_switch").hasClass("scroll_switch_off");
   $(".scroll_switch").toggleClass("scroll_switch_off");
 });
+
+var pageScrollTop = function(position) {
+  $("html, body").animate({
+    scrollTop: position
+  }, 1000);
+};
