@@ -43,6 +43,12 @@ module IRC_Log
       @msgs = @@redis.lrange("irclog:channel:##{channel}", 0, -1)
       @msgs = @msgs.map {|msg| JSON.parse(msg) }
       @msgs = @msgs.select {|msg| d = Time.at(msg["time"].to_f) - Time.parse(@date); d >= 0 && d <= 86400 }
+      @msgs = @msgs.map {|msg|
+        if msg["msg"] =~ /^\u0001ACTION (.*)\u0001$/
+          msg["msg"].gsub!(/^\u0001ACTION (.*)\u0001$/, "<span class=\"nick\">#{msg["nick"]}</span>&nbsp;\\1")
+          msg["nick"] = "*"
+        end; msg
+      }
 
       erb :channel
     end
