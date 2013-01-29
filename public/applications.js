@@ -40,7 +40,7 @@ var pollNewMsg = function(isWidget) {
         }
       }
 
-      // only scroll the page when there's new messages
+      // there's new message
       if (msgs.length > 0) {
         if (isWidget) {
           // widget layout
@@ -51,6 +51,12 @@ var pollNewMsg = function(isWidget) {
           if (window.can_scroll) {
             $(document).scrollTop($(document).height());
           }
+        }
+
+        // if we're in desktop version
+        if (typeof Cocoa !== "undefined" && Cocoa !== null) {
+          Cocoa.bounceDockIcon();
+          Cocoa.setBadgeLabelText(msgs.length.toString());
         }
       }
 
