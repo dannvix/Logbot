@@ -55,8 +55,8 @@ var pollNewMsg = function(isWidget) {
 
         // if we're in desktop version
         if (typeof Cocoa !== "undefined" && Cocoa !== null) {
-          Cocoa.bounceDockIcon();
-          Cocoa.setBadgeLabelText(msgs.length.toString());
+          Cocoa.requestUserAttention();
+          Cocoa.addUnreadCountToBadgeLabel(msgs.length);
         }
       }
 
