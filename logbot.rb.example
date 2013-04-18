@@ -18,7 +18,8 @@ bot = Cinch::Bot.new do
 
   on :message do |msg|
     if not msg.channel.nil?
-      key = "irclog:channel:#{msg.channel.name}"
+      date = msg.time.strftime("%Y-%m-%d")
+      key = "irclog:channel:#{msg.channel.name}:#{date}"
       redis.rpush(key, {
         :time => "#{msg.time.strftime("%s.%L")}",
         :nick => "#{msg.user.nick}",

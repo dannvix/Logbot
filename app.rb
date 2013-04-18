@@ -34,20 +34,20 @@ module IRC_Log
         when "yesterday"
           @date = (Time.now - 86400).strftime("%F")
         else
+          # date in "%Y-%m-%d" format (e.g. 2013-01-01)
           @date = date
       end
 
-      # @channels = @@redis.smembers("irclog:channels")
       @channel = channel
 
-      @msgs = @@redis.lrange("irclog:channel:##{channel}", 0, -1)
-      @msgs = @msgs.map {|msg| JSON.parse(msg) }
-      @msgs = @msgs.select {|msg| d = Time.at(msg["time"].to_f) - Time.parse(@date); d >= 0 && d <= 86400 }
+      @msgs = @@redis.lrange("irclog:channel:##{channel}:#{@date}", 0, -1)
       @msgs = @msgs.map {|msg|
+        msg = JSON.parse(msg)
         if msg["msg"] =~ /^\u0001ACTION (.*)\u0001$/
           msg["msg"].gsub!(/^\u0001ACTION (.*)\u0001$/, "<span class=\"nick\">#{msg["nick"]}</span>&nbsp;\\1")
           msg["nick"] = "*"
-        end; msg
+        end
+        msg
       }
 
       erb :channel
@@ -55,7 +55,8 @@ module IRC_Log
 
     get "/widget/:channel" do |channel|
       @channel = channel
-      @msgs = @@redis.lrange("irclog:channel:##{channel}", -25, -1)
+      today = Time.now.strftime("%Y-%m-%d")
+      @msgs = @@redis.lrange("irclog:channel:##{channel}:#{today}", -25, -1)
       @msgs = @msgs.map {|msg| JSON.parse(msg) }.reverse
 
       erb :widget
@@ -69,14 +70,15 @@ module Comet
     register Sinatra::Async
 
     get %r{/poll/(.*)/([\d\.]+)/updates.json} do |channel, time|
-      msgs = @@redis.lrange("irclog:channel:##{channel}", -10, -1).map{|msg| ::JSON.parse(msg) }
+      date = Time.at(time.to_f).strftime("%Y-%m-%d")
+      msgs = @@redis.lrange("irclog:channel:##{channel}:#{date}", -10, -1).map{|msg| ::JSON.parse(msg) }
       if msgs[-1]["time"] > time
         msgs.select{|msg| msg["time"] > time }.to_json
       end
 
       EventMachine.run do
         n, timer = 0, EventMachine::PeriodicTimer.new(0.5) do
-          msgs = @@redis.lrange("irclog:channel:##{channel}", -10, -1).map{|msg| ::JSON.parse(msg) }
+          msgs = @@redis.lrange("irclog:channel:##{channel}:#{date}", -10, -1).map{|msg| ::JSON.parse(msg) }
           if msgs[-1]["time"] > time || n > 120
             timer.cancel
             return msgs.select{|msg| msg["time"] > time }.to_json
