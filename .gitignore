@@ -1,7 +1,8 @@
 .swp
-public/*.css
+/public/*.css
 .sass-cache
 .DS_Store
-fire_app_log.txt
+/fire_app_log.txt
 *.rdb
-logbot.rb
+/logbot.rb
+/tmp
