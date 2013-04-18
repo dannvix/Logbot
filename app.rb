@@ -68,12 +68,12 @@ module Comet
   class App < Sinatra::Base
     register Sinatra::Async
 
-    get "/poll/:channel/:time/updates.json" do |channel, time|
+    get %r{/poll/(.*)/([\d\.]+)/updates.json} do |channel, time|
       msgs = @@redis.lrange("irclog:channel:##{channel}", -10, -1).map{|msg| ::JSON.parse(msg) }
       if msgs[-1]["time"] > time
         msgs.select{|msg| msg["time"] > time }.to_json
       end
-      
+
       EventMachine.run do
         n, timer = 0, EventMachine::PeriodicTimer.new(0.5) do
           msgs = @@redis.lrange("irclog:channel:##{channel}", -10, -1).map{|msg| ::JSON.parse(msg) }
