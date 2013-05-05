@@ -72,14 +72,14 @@ module Comet
     get %r{/poll/(.*)/([\d\.]+)/updates.json} do |channel, time|
       date = Time.at(time.to_f).strftime("%Y-%m-%d")
       msgs = @@redis.lrange("irclog:channel:##{channel}:#{date}", -10, -1).map{|msg| ::JSON.parse(msg) }
-      if msgs[-1]["time"] > time
+      if not msgs.empty? and msgs[-1]["time"] > time
         msgs.select{|msg| msg["time"] > time }.to_json
       end
 
       EventMachine.run do
         n, timer = 0, EventMachine::PeriodicTimer.new(0.5) do
           msgs = @@redis.lrange("irclog:channel:##{channel}:#{date}", -10, -1).map{|msg| ::JSON.parse(msg) }
-          if msgs[-1]["time"] > time || n > 120
+          if not msgs.empty? and usgs[-1]["time"] > time || n > 120
             timer.cancel
             return msgs.select{|msg| msg["time"] > time }.to_json
           end
