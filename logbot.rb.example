@@ -2,7 +2,7 @@ require "json"
 require "cinch"
 require "redis"
 
-channels = %w(#test56)
+channels = (ENV['LOGBOT_CHANNELS'] || '#test56').split /[\s,]+/
 redis = Redis.new(:thread_safe => true)
 
 channels.each do |chan|
@@ -11,8 +11,8 @@ end
 
 bot = Cinch::Bot.new do
   configure do |conf|
-    conf.server = "irc.freenode.net"
-    conf.nick = "logbot_"
+    conf.server = (ENV['LOGBOT_SERVER'] || "irc.freenode.net")
+    conf.nick = (ENV['LOGBOT_NICK'] || "logbot_")
     conf.channels = channels
   end
 

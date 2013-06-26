@@ -12,6 +12,7 @@ var strftime = function(date) {
 
 
 var lastTimestamp = undefined;
+var seenTimestamp = {};
 var pollNewMsg = function(isWidget) {
   var isWidget = (isWidget == null) ? false : isWidget;
   var time = lastTimestamp || (new Date()).getTime() / 1000.0;
@@ -26,6 +27,8 @@ var pollNewMsg = function(isWidget) {
       var msgs = JSON.parse(data);
       for (var i = 0; i < msgs.length; i++) {
         var msg = msgs[i];
+	if (seenTimestamp[msg.time]) { continue; }
+	seenTimestamp[msg.time] = true;
         var date = new Date(parseFloat(msg["time"]) * 1000);
         var linkedMsg = msg["msg"].replace(/(http[s]*:\/\/[^\s]+)/, '<a href="$1">$1</a>');
         var msgElement = $("<li>").addClass("new-arrival")
@@ -59,9 +62,14 @@ var pollNewMsg = function(isWidget) {
           Cocoa.addUnreadCountToBadgeLabel(msgs.length);
         }
       }
-
+lastTimestamp = (new Date()).getTime() / 1000.0;
+try {
       lastTimestamp = msgs[msgs.length - 1]["time"];
+} catch (e) {};
+
+setTimeout(function(){
       pollNewMsg(isWidget);
+}, 3000);
     },
 
     error: function() {
