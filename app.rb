@@ -61,6 +61,26 @@ module IRC_Log
 
       erb :widget
     end
+
+    get "/search/:channel" do |channel|      
+      @channel = channel
+      @search = params[:search]
+      @keys = @@redis.keys("irclog:channel:##{channel}:*")
+      @result = Array.new
+      @keys.each do |key|
+        resultgrp = Array.new
+        msgs = @@redis.lrange(key, 0, -1)
+        msgs.each do |msg|
+          msg = JSON.parse(msg)
+          if msg["msg"].include?(@search)
+            puts msg
+            resultgrp.push(msg)
+          end
+        end
+        @result.push({'date'=>key.split(":")[-1], 'results'=> resultgrp})
+      end
+      erb :search
+    end
   end
 end
 
