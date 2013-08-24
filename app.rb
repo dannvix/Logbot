@@ -11,7 +11,7 @@ require "redis"
 require "compass"
 require "eventmachine"
 
-@@redis = Redis.new(:thread_safe => true)
+$redis = Redis.new(:thread_safe => true)
 
 module IRC_Log
   class App < Sinatra::Base
@@ -40,7 +40,7 @@ module IRC_Log
 
       @channel = channel
 
-      @msgs = @@redis.lrange("irclog:channel:##{channel}:#{@date}", 0, -1)
+      @msgs = $redis.lrange("irclog:channel:##{channel}:#{@date}", 0, -1)
       @msgs = @msgs.map {|msg|
         msg = JSON.parse(msg)
         if msg["msg"] =~ /^\u0001ACTION (.*)\u0001$/
@@ -56,7 +56,7 @@ module IRC_Log
     get "/widget/:channel" do |channel|
       @channel = channel
       today = Time.now.strftime("%Y-%m-%d")
-      @msgs = @@redis.lrange("irclog:channel:##{channel}:#{today}", -25, -1)
+      @msgs = $redis.lrange("irclog:channel:##{channel}:#{today}", -25, -1)
       @msgs = @msgs.map {|msg| JSON.parse(msg) }.reverse
 
       erb :widget
@@ -71,15 +71,15 @@ module Comet
 
     get %r{/poll/(.*)/([\d\.]+)/updates.json} do |channel, time|
       date = Time.at(time.to_f).strftime("%Y-%m-%d")
-      msgs = @@redis.lrange("irclog:channel:##{channel}:#{date}", -10, -1).map{|msg| ::JSON.parse(msg) }
-      if not msgs.empty? && msgs[-1]["time"] > time
+      msgs = $redis.lrange("irclog:channel:##{channel}:#{date}", -10, -1).map{|msg| ::JSON.parse(msg) }
+      if (not msgs.empty?) && msgs[-1]["time"] > time
         return msgs.select{|msg| msg["time"] > time }.to_json
       end
 
       EventMachine.run do
         n, timer = 0, EventMachine::PeriodicTimer.new(0.5) do
-          msgs = @@redis.lrange("irclog:channel:##{channel}:#{date}", -10, -1).map{|msg| ::JSON.parse(msg) }
-          if not msgs.empty? && usgs[-1]["time"] > time || n > 120
+          msgs = $redis.lrange("irclog:channel:##{channel}:#{date}", -10, -1).map{|msg| ::JSON.parse(msg) }
+          if (not msgs.empty?) && usgs[-1]["time"] > time || n > 120
             timer.cancel
             return msgs.select{|msg| msg["time"] > time }.to_json
           end
