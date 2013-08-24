@@ -79,7 +79,7 @@ module Comet
       EventMachine.run do
         n, timer = 0, EventMachine::PeriodicTimer.new(0.5) do
           msgs = $redis.lrange("irclog:channel:##{channel}:#{date}", -10, -1).map{|msg| ::JSON.parse(msg) }
-          if (not msgs.empty?) && usgs[-1]["time"] > time || n > 120
+          if (not msgs.empty?) && msgs[-1]["time"] > time || n > 120
             timer.cancel
             return msgs.select{|msg| msg["time"] > time }.to_json
           end
