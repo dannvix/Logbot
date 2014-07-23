@@ -10,18 +10,29 @@ Screenshot
 
 How to Deploy
 -------------
-1. Ruby (1.9.3+) and Redis server must be installed
-2. Type `bundle install` to install required Ruby gems
-3. Type `compass compile` to compile Sass files
-4. Fire up your `redis-server`
-5. Specify target channels in `logbot.rb`
-6. Type `foreman start` to launch web server (WEBrick) and Logbot agent
-7. Visit [http://localhost:5000](http://localhost:5000).
+* Use Docker
+    1. Install [Docker](https://www.docker.com/)
+    2. Run `docker run -e LOGBOT_NICK=xxxx -e LOGBOT_CHANNELS=#x,#y,#z -e LOGBOT_SERVER=168.95.1.1 dannvix/logbot`
+    3. Visit [http://localhost:5000](http://localhost:5000)
+
+* Manual installation
+    1. Ruby (1.9.3+) and Redis server must be installed
+    2. Run `bundle install` to install required Ruby gems
+    3. Run `compass compile` to compile Sass files
+    4. Fire up your `redis-server`
+    5. Specify target channels in `logbot.rb`
+    6. Run `foreman start` to launch web server (WEBrick) and Logbot agent
+    7. Visit [http://localhost:5000](http://localhost:5000).
 
 
 How to Contribute
 -----------------
 Just hack it and send me pull requests ;)
+
+
+Resource
+--------
+* See [g0v/Logbot](https://github.com/g0v/Logbot) for many bugfixes and enhancements.
 
 
 License
