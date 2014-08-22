@@ -5,6 +5,7 @@ Encoding.default_external = "utf-8"
 require "json"
 require "time"
 require "date"
+require "cgi"
 require "sinatra/base"
 require "sinatra/async"
 require "redis"
@@ -43,6 +44,7 @@ module IRC_Log
       @msgs = $redis.lrange("irclog:channel:##{channel}:#{@date}", 0, -1)
       @msgs = @msgs.map {|msg|
         msg = JSON.parse(msg)
+        msg["msg"] = CGI.escapeHTML(msg["msg"])
         if msg["msg"] =~ /^\u0001ACTION (.*)\u0001$/
           msg["msg"].gsub!(/^\u0001ACTION (.*)\u0001$/, "<span class=\"nick\">#{msg["nick"]}</span>&nbsp;\\1")
           msg["nick"] = "*"
@@ -57,7 +59,12 @@ module IRC_Log
       @channel = channel
       today = Time.now.strftime("%Y-%m-%d")
       @msgs = $redis.lrange("irclog:channel:##{channel}:#{today}", -25, -1)
-      @msgs = @msgs.map {|msg| JSON.parse(msg) }.reverse
+      @msgs = $redis.lrange("irclog:channel:##{channel}:#{today}", -25, -1)
+      @msgs = @msgs.map {|msg|
+        ret = JSON.parse(msg)
+        ret["msg"] = CGI.escape(ret["msg"])
+        ret
+      }.reverse
 
       erb :widget
     end
@@ -71,14 +78,22 @@ module Comet
 
     get %r{/poll/(.*)/([\d\.]+)/updates.json} do |channel, time|
       date = Time.at(time.to_f).strftime("%Y-%m-%d")
-      msgs = $redis.lrange("irclog:channel:##{channel}:#{date}", -10, -1).map{|msg| ::JSON.parse(msg) }
+      msgs = $redis.lrange("irclog:channel:##{channel}:#{date}", -10, -1).map{|msg|
+        ret = ::JSON.parse(msg)
+        ret["msg"] = CGI.escapeHTML(ret["msg"])
+        ret
+      }
       if (not msgs.empty?) && msgs[-1]["time"] > time
         return msgs.select{|msg| msg["time"] > time }.to_json
       end
 
       EventMachine.run do
         n, timer = 0, EventMachine::PeriodicTimer.new(0.5) do
-          msgs = $redis.lrange("irclog:channel:##{channel}:#{date}", -10, -1).map{|msg| ::JSON.parse(msg) }
+          msgs = $redis.lrange("irclog:channel:##{channel}:#{date}", -10, -1).map{|msg|
+            ret = ::JSON.parse(msg)
+            ret["msg"] = CGI.escapeHTML(ret["msg"])
+            ret
+          }
           if (not msgs.empty?) && msgs[-1]["time"] > time || n > 120
             timer.cancel
             return msgs.select{|msg| msg["time"] > time }.to_json
