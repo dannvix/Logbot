@@ -20,10 +20,20 @@ How to Deploy
     2. Run `bundle install` to install required Ruby gems
     3. Run `compass compile` to compile Sass files
     4. Fire up your `redis-server`
-    5. Specify target channels in `logbot.rb`
+    5. Specify target channels in `config/app.rb`
     6. Run `foreman start` to launch web server (WEBrick) and Logbot agent
     7. Visit [http://localhost:5000](http://localhost:5000).
 
+
+FAQ
+-----------------
+* How to change default web listening port
+	- *Edit "web:" command in Procfile*
+* Is there mobile version of LogBot page?
+	- *Yes, beside of RWD-ish design of normal page there is also ***widget*** view available. To view it use http://localhost:5000/***widget***/#channel instead of http://localhost:5000/***channel***/#channel/today.*
+	- *Note: in widget view the newest messages are append on ***top*** of the page*
+* Can LogBot log channels on multiple servers at the same time?
+	- *Unfortunately not, you can log as many channels as you wish with single instance but only as long as all of them are on the same server. But you can always run second LogBot instance, just duplicate LogBot directory and ***change port in Procfile***.*
 
 How to Contribute
 -----------------

@@ -1,0 +1,5 @@
+Configuration.for('app') {
+  channels ['#test86', '#test907']
+  server "irc.freenode.net"
+  nick "logbot_"
+}
