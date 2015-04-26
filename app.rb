@@ -10,9 +10,18 @@ require "sinatra/base"
 require "sinatra/async"
 require "redis"
 require "compass"
+require "configuration"
 require "eventmachine"
 
 $redis = Redis.new(:thread_safe => true)
+Kernel.load "config/app.rb"
+config = Configuration.for "app"
+
+if ENV['LOGBOT_CHANNELS']
+	$channels = ENV['LOGBOT_CHANNELS'].split /[\s,]+/	
+else 
+	$channels = config.channels
+end
 
 module IRC_Log
   class App < Sinatra::Base
@@ -21,7 +30,8 @@ module IRC_Log
     end
 
     get "/" do
-      redirect "/channel/g0v.tw/today"
+	  channel = $channels[0].sub("#", "")
+      redirect "/channel/"+ channel +"/today"
     end
 
     get "/channel/:channel" do |channel|
@@ -61,9 +71,13 @@ module IRC_Log
       @msgs = $redis.lrange("irclog:channel:##{channel}:#{today}", -25, -1)
       @msgs = $redis.lrange("irclog:channel:##{channel}:#{today}", -25, -1)
       @msgs = @msgs.map {|msg|
-        ret = JSON.parse(msg)
-        ret["msg"] = CGI.escape(ret["msg"])
-        ret
+        msg = JSON.parse(msg)
+        msg["msg"] = CGI.escapeHTML(msg["msg"])
+        if msg["msg"] =~ /^\u0001ACTION (.*)\u0001$/
+          msg["msg"].gsub!(/^\u0001ACTION (.*)\u0001$/, "<span class=\"nick\">#{msg["nick"]}</span>&nbsp;\\1")
+          msg["nick"] = "*"
+        end
+        msg
       }.reverse
 
       erb :widget
